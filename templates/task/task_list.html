@@ -33,7 +33,7 @@
       {% else %}
         <h5>No time remains</h5>
       {% endif %}
-      <p>Tags: {% for tag in task.tags.all %}{{ tag }}{% endfor %}</p>
+      <p>Tags: {% for tag in task.tags.all %}{{ tag }}, {% endfor %}</p>
       <a href="{% url "task:task-update" pk=task.id %}">Update</a>
       <a href="{% url "task:task-delete" pk=task.id %}">Delete</a>
       <hr>
