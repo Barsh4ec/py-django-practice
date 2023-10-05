@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load app_tags %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 text-left">
+        <h1>TODO List</h1>
+      </div>
+      <div class="col-md-6 text-right mt-3">
+        <a href="{% url "task:task-create" %}" class="btn btn-primary link-to-page">Create task</a>
+      </div>
+    </div>
+  </div>
+  <br>
+  {% if task_list %}
+    {% for task in task_list %}
+      <div class="d-flex justify-content-between">
+        <h4><strong>{{ task.content }}</strong></h4>
+        <span class="{% if task.is_done %}text-success{% else %}text-danger{% endif %} mx-0">
+    {% if task.is_done %}Done{% else %}Not done{% endif %}
+  </span>
+        <a href="{% url 'task:task-status-update' pk=task.id %}"
+           class="btn {% if task.is_done %}btn-secondary{% else %}btn-success{% endif %} ms-2">
+          {% if task.is_done %}Undo{% else %}Complete{% endif %}
+        </a>
+      </div>
+
+
+
+      {% if task.deadline|get_remain_time %}
+        <h5>Time remains: {{ task.deadline|get_remain_time }}</h5>
+      {% else %}
+        <h5>No time remains</h5>
+      {% endif %}
+      <p>Tags: {% for tag in task.tags.all %}{{ tag }}{% endfor %}</p>
+      <a href="{% url "task:task-update" pk=task.id %}">Update</a>
+      <a href="{% url "task:task-delete" pk=task.id %}">Delete</a>
+      <hr>
+    {% endfor %}
+
+  {% else %}
+    <p>There is no tasks right now</p>
+  {% endif %}
+{% endblock %}
