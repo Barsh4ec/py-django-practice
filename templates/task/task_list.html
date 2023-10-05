@@ -16,10 +16,14 @@
   {% if task_list %}
     {% for task in task_list %}
       <div class="d-flex justify-content-between">
-        <h4><strong>{{ task.content }}</strong></h4>
-        <span class="{% if task.is_done %}text-success{% else %}text-danger{% endif %} mx-0">
-    {% if task.is_done %}Done{% else %}Not done{% endif %}
-  </span>
+        <h4>
+          <strong>{{ task.content }}</strong>
+          <span
+              class="{% if task.is_done %}text-success{% else %}text-danger{% endif %} mx-0">
+                {% if task.is_done %}Done{% else %}Not done{% endif %}
+          </span>
+        </h4>
+
         <a href="{% url 'task:task-status-update' pk=task.id %}"
            class="btn {% if task.is_done %}btn-secondary{% else %}btn-success{% endif %} ms-2">
           {% if task.is_done %}Undo{% else %}Complete{% endif %}
